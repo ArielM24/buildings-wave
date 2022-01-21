@@ -1,13 +1,14 @@
-import THREE from './three.r110.js';
+//import THREE from './three.r110.js';
+import * as THREE from 'three';
 import TweenMax from './tweenmax.1.20.3';
-import OBJLoader from './three.r110.objloader';
-import OrbitControls from './three.r110.orbitcontrols';
+//import OBJLoader from './three.r110.objloader';
+//import OrbitControls from './three.r110.orbitcontrols';
+import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls'
+import {OBJLoader} from 'three/examples/jsm/loaders/OBJLoader.js';
+import {gsap} from 'gsap';
 import dat from './dat.gui.0.7.2';
 import 'styles/index.css';
 
-THREE = window.THREE;
-THREE.OrbitControls = OrbitControls;
-THREE.OBJLoader  = OBJLoader;
 
 export default class App {
   init() {
@@ -210,7 +211,8 @@ export default class App {
     this.sortBuildingsByDistance();
 
     this.buildings.forEach((building, index) => {
-      TweenMax.to(building.position, .6 + (index / 4000), { y: 1, ease: Expo.easeOut, delay: index / 4000 });
+      //TweenMax.to(building.position, .6 + (index / 4000), { y: 1, ease: Expo.easeOut, delay: index / 4000 });
+      gsap.to(building.position, {y: 1, ease: "expo.out", delay: index / 4000})
     });
   }
 
@@ -227,7 +229,7 @@ export default class App {
   }
 
   loadModels(name, callback) {
-    const objLoader = new THREE.OBJLoader();
+    const objLoader = new OBJLoader();
 
     objLoader.load(name, callback);
   }
@@ -263,7 +265,7 @@ export default class App {
   }
 
   addCameraControls() {
-    this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
+    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls.enabled = false;
   }
 
